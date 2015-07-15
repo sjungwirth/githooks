@@ -1,0 +1,70 @@
+#
+# Configs
+#
+debug_functions=( "print_r" "var_dump" "console.log" "debugger")
+
+#
+# Color Definitions
+#
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+magenta=`tput setaf 5`
+cyan=`tput setaf 6`
+reset=`tput sgr0`
+
+#
+# error variable
+# 
+error_found=false
+
+for file in $(git diff --cached --name-only); do
+	#
+	# Test for debug calls
+	#
+	for (( i=0; i<${#debug_functions[@]}; i++ )); do
+		grep "${debug_functions[$i]}" $file | grep -vq "//"
+		if [ $? -ne 1 ] ; then
+			echo "${red}EPIC FAILURE${reset}: You left a ${yellow}${debug_functions[$i]}${reset} in ${yellow}$file${reset}"
+			error_found=true
+		fi
+	done
+	
+	#
+	#
+	#
+		
+done
+
+if $error_found ; then 
+	echo ""
+	echo "                                  \$\$\$"
+	echo "             \$\$\$\$\$,        .:<X!!UW\$\$\$\$\$\$bo.         ,\$\$\$\$"
+	echo "               '\$\$\$\$   .:!!!!!XQ\$\$\$\$\$\$\$\$\$\$\$\$\$e.    ,\$\$\$\$'"
+	echo "                 '\$\$\$ .!!!XXXM\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$. \$\$\$\$'"
+	echo "                   \$.!!!!!!M68\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$. '\$"
+	echo "                   .!!!!!!RMW\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$."
+	echo "                   !!!!!?!MM9\$N\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$"
+	echo "                  :!!! !!HMH@\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$ \$\$\$"
+	echo "                   !! J\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$ \$\$"
+	echo "                   '! \$'        '\$^^\$'         '\$ \$'"
+	echo "                    .\$   (0)    !'  '!    (0)    \$."
+	echo "                   :\$\$,       ..! || !..        .\$\$:"
+	echo "                     \$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$"
+	echo "                      \$\$^^^^^\$\$\$\$\$\$\$\$\$\$\$\$\$^^^^^\$\$"
+	echo "                     .  :\$\$ :|m|#|m|~|#|#|: \$\$: ."
+	echo "                   ,\$\$\$ '\$\$.:|#|w|#|#|w|#|;.\$\$' \$\$\$,"
+	echo "                 ,\$\$\$'   \$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$   '\$\$\$,"
+	echo "               ,\$\$\$'      \$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$      '\$\$\$."
+	echo "             \$\$\$\$'          ~~~~~~   ~~~~~~          '\$\$\$\$"
+	echo ""
+	echo "                       Files were not committed"
+	echo ""
+	exit 1
+else 
+	exit 0 
+fi
+
+
+
