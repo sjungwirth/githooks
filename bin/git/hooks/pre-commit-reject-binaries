@@ -54,18 +54,21 @@ try:
 
     # Check all files:
     for file_s in file_list:
-        stat = os.stat(file_s[3:])
-        if stat.st_size > (max_file_size*1024):
-            # File is to big, abort the commit:
-            print("'"+file_s[3:]+"' is too huge to be commited!",
-                "("+sizeof_fmt(stat.st_size)+")")
-            sys.exit(1)
+        if os.path.isfile(file_s[3:]):
+            stat = os.stat(file_s[3:])
+            if stat.st_size > (max_file_size*1024):
+                # File is to big, abort the commit:
+                print("'"+file_s[3:]+"' is too huge to be commited!",
+                    "("+sizeof_fmt(stat.st_size)+")")
+                sys.exit(1)
 
     # Everything seams to be okay:
     print("No huge files found.")
     sys.exit(0)
 
 except Exception:
-    # There was a problem calling "git status".
+    # There was a problem
+    e = sys.exc_info()[1]
+    print(e.args)
     print("Oops...")
     sys.exit(12)

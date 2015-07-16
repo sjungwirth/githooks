@@ -24,10 +24,12 @@ for file in $(git diff --cached --name-only); do
 	# Test for debug calls
 	#
 	for (( i=0; i<${#debug_functions[@]}; i++ )); do
-		grep "${debug_functions[$i]}" $file | grep -vq "//"
-		if [ $? -ne 1 ] ; then
-			echo "${red}EPIC FAILURE${reset}: You left a ${yellow}${debug_functions[$i]}${reset} in ${yellow}$file${reset}"
-			error_found=true
+		if [ -e $file ] ; then
+			grep "${debug_functions[$i]}" $file | grep -vq "//"
+			if [ $? -ne 1 ] ; then
+				echo "${red}EPIC FAILURE${reset}: You left a ${yellow}${debug_functions[$i]}${reset} in ${yellow}$file${reset}"
+				error_found=true
+			fi
 		fi
 	done
 	
