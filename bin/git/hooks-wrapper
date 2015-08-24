@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Runs all executable pre-commit-* hooks and exits after,
 # if any of them was not successful.
