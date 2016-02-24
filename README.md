@@ -8,3 +8,6 @@ Want to make sure everyone in your project is using a githook?
 ## usage
 - Create a folder `bin/git/hooks/` and add/commit your hooks there (eg. pre-commit-my-custom-hook1)
 - Add `bin/git/init-hooks` to your init/build/make/configure process so that it gets run as part of the project init process
+
+## license
+MIT
