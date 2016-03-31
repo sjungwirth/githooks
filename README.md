@@ -2,7 +2,7 @@
 Want to make sure everyone in your project is using a githook?
 
 ## install
-- Copy the `bin/git/hooks-wrapper` and `bin/git/inti-hooks` scripts to your project
+- Copy the `bin/git/hooks-wrapper` and `bin/git/init-hooks` scripts to your project
 - If you change the location of these scripts in your project you will need to edit the paths in the scripts slightly
 
 ## usage
