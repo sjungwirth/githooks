@@ -22,14 +22,14 @@ NATIVE_HOOKS_DIR=$(git rev-parse --show-toplevel)/.git/hooks
 
 for hook in $CUSTOM_HOOKS_DIR/$(basename $0)-*; do
   test -x "$hook" || continue
-  out=`$hook`
+  out=`$hook "$@"`
   exitcodes+=($?)
   echo "$out"
 done
 
 # check if there was a local hook that was moved previously
 if [ -f "$NATIVE_HOOKS_DIR/$hookname.local" ]; then
-    out=`$NATIVE_HOOKS_DIR/$hookname.local`
+    out=`$NATIVE_HOOKS_DIR/$hookname.local "$@"`
     exitcodes+=($?)
     echo "$out"
 fi
