@@ -7,12 +7,12 @@
 # https://github.com/ELLIOTTCABLE/Paws.js/blob/Master/Scripts/git-hooks/chain-hooks.sh
 # http://osdir.com/ml/git/2009-01/msg00308.html
 #
-# assumes your scripts are located at <repo-root>/bin/git/hooks
+# assumes your scripts are located at <repo-root>/.githooks/<hook-type>/*
 
 exitcodes=()
 hookname=`basename $0`
 # our special hooks folder
-CUSTOM_HOOKS_DIR=$(git rev-parse --show-toplevel)/bin/git/hooks
+CUSTOM_HOOKS_DIR=$(git rev-parse --show-toplevel)/.githooks
 # find gits native hooks folder
 NATIVE_HOOKS_DIR=$(git rev-parse --show-toplevel)/.git/hooks
 
@@ -20,11 +20,11 @@ NATIVE_HOOKS_DIR=$(git rev-parse --show-toplevel)/.git/hooks
 # We don't want to bail at the first failure, as the user might
 # then bypass the hooks without knowing about additional issues.
 
-for hook in $CUSTOM_HOOKS_DIR/$(basename $0)-*; do
-  test -x "$hook" || continue
-  out=`$hook "$@"`
-  exitcodes+=($?)
-  echo "$out"
+for hook in $CUSTOM_HOOKS_DIR/$hookname/*; do
+    test -x "$hook" || continue
+    out=`$hook "$@"`
+    exitcodes+=($?)
+    echo "$out"
 done
 
 # check if there was a local hook that was moved previously
@@ -36,5 +36,5 @@ fi
 
 # If any exit code isn't 0, bail.
 for i in "${exitcodes[@]}"; do
-  [ "$i" == 0 ] || exit $i
+    [ "$i" == 0 ] || exit $i
 done
